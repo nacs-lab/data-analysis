@@ -2,7 +2,7 @@
 %Don't need to run above once files are made.  Just run below. 
     
 %load site data
-file = [20171212, 092423];  % 15.5 mW
+file = [20171214, 161245];  % 15.5 mW
 p = replot2(file);
 %close all;
 
@@ -36,7 +36,7 @@ for i = 1:length(p_survival)
 
     
     ft = 'a*exp(-(x-b)^2/w^2) + os';
-    fitcenter = 150;
+    fitcenter = 30;
     fitwidth = 100; 1e6;
     startPoints = [1 fitcenter  0 50];  %a, b, os, w
     

@@ -5,7 +5,7 @@
 %JDH
 
 %% Load unseparated file
-file = [20171219, 103743];
+file = [20171219, 223945];
 fname = DateTimeStampFilename(file(1), file(2));
 d = load(fname);
 %plot data
@@ -15,13 +15,13 @@ d.Images =[];  %get rid of legacy d.Images
 
 %% Separating multiple scans
 
-Params = [ linspace(15, 35, 21), linspace(120, 160, 41) ];
+Params = linspace(-150, 150, 31); % carrier
 offset1 = length(Params);
 offset2 = offset1 + length(Params);
 offset3 = offset2 + length(Params);
-% offset4 = offset3 + length(Params);
-% offset5 = offset4 + length(Params);
-% offset6 = offset5 + length(Params);
+offset4 = offset3 + length(Params);
+offset5 = offset4 + length(Params);
+offset6 = offset5 + length(Params);
 % offset7 = offset6 + length(Params);
 % offset8 = offset7 + length(Params);
 % offset9 = offset8 + length(Params);
@@ -31,14 +31,14 @@ offset3 = offset2 + length(Params);
 %Params{2} = linspace(-180, 210, 91);
 %Params3 = linspace(-180, 210, 91)*1e3;  %don't use because didn't scan
 %enough points
-ParamName = 'CsTrapFreq';
+ParamName = 'CsRaman1Det';
 ParamUnits = 'kHz';
 PlotScale = 1;
 
 
 %define index ranges to separate into files
-IdxRange = {[1, offset1], [offset1+1, offset2], [offset2+1, offset3]};
-%     [offset3+1, offset4], [offset4+1, offset5], [offset5+1, offset6] ...
+IdxRange = {[1, offset1], [offset1+1, offset2], [offset2+1, offset3], ...
+     [offset3+1, offset4], [offset4+1, offset5], [offset5+1, offset6]};
 %     [offset6+1, offset7], [offset7+1, offset8], [offset8+1, offset9]};
 
 clear IdxLogic p fname_new ParamList Scan

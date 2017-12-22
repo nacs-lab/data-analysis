@@ -34,21 +34,21 @@ x1 = TweezerPower(indx);
 y1 = x0(indx);
 y1err = x0Err(indx);
 errorbar( x1, y1, y1err ,'.-')
-fit( x1', y1', 'poly1' )  
+fit( x1', y1', 'poly1' )
 
 indx = [4,5];
 x1 = TweezerPower(indx);
 y1 = x0(indx);
 y1err = x0Err(indx);
 errorbar( x1, y1, y1err ,'.-')
-fit( x1', y1', 'poly1' )  
+fit( x1', y1', 'poly1' )
 
 indx = [7,8];
 x1 = TweezerPower(indx);
 y1 = x0(indx);
 y1err = x0Err(indx);
 errorbar( x1, y1, y1err ,'.-')
-fit( x1', y1', 'poly1' )  
+fit( x1', y1', 'poly1' )
 
 xlabel('Tweezer power (mW)'); ylabel('x_0 (kHz)');
 legend('48 MHz','57.5 MHz','65 MHz');
@@ -61,23 +61,23 @@ x1 = RamanRF(indx);
 y1 = x0(indx);
 y1err = x0Err(indx);
 errorbar( x1, y1, y1err ,'.-')
-fit( x1', y1', 'poly1' )  
+fit( x1', y1', 'poly1' )
 
 indx = [1,3]+3;
 x1 = RamanRF(indx);
 y1 = x0(indx);
 y1err = x0Err(indx);
 errorbar( x1, y1, y1err ,'.-')
-fit( x1', y1', 'poly1' )  
+fit( x1', y1', 'poly1' )
 
 indx = [1,3]+6;
 x1 = RamanRF(indx);
 y1 = x0(indx);
 y1err = x0Err(indx);
 errorbar( x1, y1, y1err ,'.-')
-fit( x1', y1', 'poly1' )  
+fit( x1', y1', 'poly1' )
 
 xlabel('Raman RF (au)'); ylabel('x_0 (kHz)');
 legend('48 MHz','57.5 MHz','65 MHz');
 
-fit( x1', y1', 'poly1' )  
+fit( x1', y1', 'poly1' )

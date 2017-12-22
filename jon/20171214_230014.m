@@ -43,42 +43,42 @@ IdxRange = {[1, offset1], [offset1+1, offset2], [offset2+1, offset3], ...
 
 clear IdxLogic p fname_new ParamList Scan
 for i=1:length(IdxRange)
-    
+
     %Initialize Scan to be same as d.Scan
     Scan = d.Scan;
-    
+
     %Filter only Idx's in IndxRange
     IdxLogic = IdxRange{i}(1) <= d.ParamList & d.ParamList <= IdxRange{i}(2);
     %ParamList = d.ParamList( IdxLogic );  %defined in plot_data below
     Scan.Images = d.Scan.Images(:, :, repelem(IdxLogic, d.Scan.NumImages) );
-    
+
     IdxLogic = IdxRange{i}(1) <= d.Scan.Params & d.Scan.Params <= IdxRange{i}(2);
-    Scan.Params = d.Scan.Params( IdxLogic ); 
+    Scan.Params = d.Scan.Params( IdxLogic );
     Scan.NumPerGroup = length( Scan.Params );
-    
+
     %Update Idx to scanned units
     Scan.ParamName = ParamName;
     Scan.ParamUnits = ParamUnits;
     Scan.PlotScale = PlotScale;
-    Scan.Params = Params( Scan.Params - (IdxRange{i}(1) - 1) ); 
-        
+    Scan.Params = Params( Scan.Params - (IdxRange{i}(1) - 1) );
+
     %Create new fname for filtered data which is 1 sec later
     fname = DateTimeStampFilename(file(1), file(2) + i);
-    
+
     %redo analysis on filtered data
     [Analysis, MeanLoads, ParamList] = plot_data(Scan, Scan.Images, fname);
 
     %save data as new .mat file
     memmap = d.memmap;
     ErrorCode = d.ErrorCode;
-    save(fname, 'memmap', 'ErrorCode', 'Scan', 'ParamList', 'Analysis'); 
+    save(fname, 'memmap', 'ErrorCode', 'Scan', 'ParamList', 'Analysis');
 
 end
 
 
-%% Load data and fit 
-%Don't need to run above once files are made.  Just run below. 
-    
+%% Load data and fit
+%Don't need to run above once files are made.  Just run below.
+
 %load site data
 file = [20171214, 230022];  %15 - 23
 p = replot2(file);
@@ -104,22 +104,22 @@ param_list = repmat(params, 1, num_grp);
 unique_params = unique(param_list);
 
 
-%% Fit each site 2 
+%% Fit each site 2
 %plot
 %figure(3); %clf;
 %for i = 1:1  %length(p_survival)
     i=2; %which site
-    
+
     %line_specs = {'bs','rs','cs','gs','ys','rs'};
     %errorbar(unique_params/plot_scale, squeeze(p_survival{i}), p_survival_err{i}, line_specs{mod(i-1,6)+1});
-  
+
     %ft = 'a*exp(-(x-b)^2/w^2) + os';
     ft = 'a*rabiLine(2*pi*(x-x0)*1e3, 15*1e-6, Omega*1e3)';
     fitcenter = 16; %center in kHz
     fitwidth = 1e6;
     %startPoints = [1 fitcenter  0 50];  %a, b, os, w  %Gaussian
     startPoints = [ 200, 1, fitcenter]; %Omega (2piKHz), a, t(us), x0(kHz)
-    
+
     fitrange = fitcenter + fitwidth*[-1/2 1/2];
     xfit = unique_params'/plot_scale;
     exclude = xfit < min(fitrange) | xfit > max(fitrange);
@@ -133,11 +133,11 @@ unique_params = unique(param_list);
     s3 = sprintf(['\n', num2str(err)]);
     text(xlimits(1)+(xlimits(2)-xlimits(1))/10, 0.9 - (i-1)*0.17, [s1, s2, s3])
     legend off;
-     
+
     box on; grid on;
     xlabel({param_name_unit}, 'interpreter','none');
     ylabel('Survival probability');
     ylim([0,1]);
-    
+
 %end
 

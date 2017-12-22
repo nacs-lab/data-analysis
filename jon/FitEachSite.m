@@ -1,6 +1,6 @@
 %% Load data
-%Don't need to run above once files are made.  Just run below. 
-    
+%Don't need to run above once files are made.  Just run below.
+
 %load site data
 file = [20171214, 193954];  % 15.5 mW
 p = replot2(file);
@@ -29,18 +29,18 @@ unique_params = unique(param_list);
 figure(3); %clf;
 for i = 1:length(p_survival)
     %i=2; %which site
-    
+
     %line_specs = {'bs','rs','cs','gs','ys','rs'};
     %errorbar(unique_params/plot_scale, squeeze(p_survival{i}), p_survival_err{i}, line_specs{mod(i-1,6)+1});
-    
 
-    
+
+
     ft = 'a*exp(-(x-b)^2/w^2) + os';
     fitcenter = 10;
     fitwidth = 100; 1e6;
     startPoints = [1 fitcenter  0 50];  %a, b, os, w
-    
-    
+
+
     fitrange = fitcenter + fitwidth*[-1/2 1/2];
     xfit = unique_params'/plot_scale;
     exclude = xfit < min(fitrange) | xfit > max(fitrange);
@@ -54,11 +54,11 @@ for i = 1:length(p_survival)
     s3 = sprintf(['\n', num2str(err)]);
     text(xlimits(1)+(xlimits(2)-xlimits(1))/10, 0.9 - (i-1)*0.17, [s1, s2, s3])
     legend off;
-     
+
     box on; grid on;
     xlabel({param_name_unit}, 'interpreter','none');
     ylabel('Survival probability');
     ylim([0,1]);
-    
+
 end
 

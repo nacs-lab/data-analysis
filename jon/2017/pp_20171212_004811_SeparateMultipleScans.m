@@ -38,8 +38,8 @@ for i=1:length(IdxRange)
     %ParamList = d.ParamList( IdxLogic );  %defined in plot_data below
     Scan.Images = d.Scan.Images(:, :, repelem(IdxLogic, d.Scan.NumImages) );
 
-    IdxLogic = IdxRange{i}(1) <= d.Scan.Params & d.Scan.Params <= IdxRange{i}(2);
-    Scan.Params = d.Scan.Params( IdxLogic );
+    IdxLogic2 = IdxRange{i}(1) <= d.Scan.Params & d.Scan.Params <= IdxRange{i}(2);
+    Scan.Params = d.Scan.Params( IdxLogic2 );
     Scan.NumPerGroup = length( Scan.Params );
 
     %Update Idx to scanned units

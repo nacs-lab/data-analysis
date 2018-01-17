@@ -4,14 +4,25 @@ function output = SeparateMultipleScans(file, o, savedata)
     %o(i).Params = [...];
     %o(i).ParamUnits = 'MHz';
     %o(i).PlotScale = 1; 
+    %o(i).ParamName
     %savedata = switch for saving data as .m files with +i seconds from
     %original
     
-% Initialize variables
+% Initialize variables and set defaults
 if ~exist('savedata')
     savedata = 0;
 end
-
+if ~isfield(o,'PlotScale')
+    o(1).PlotScale = 1;
+end
+if ~isfield(o,'ParamUnits')
+    o(1).ParamUnits = '';
+end
+if ~isfield(o,'ParamName')
+    o(1).ParamName = '';
+end
+    
+    
 % Load unseparated file
 %file = [20180115, 164803];
 fname = DateTimeStampFilename(file(1), file(2));

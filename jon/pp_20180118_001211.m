@@ -27,21 +27,31 @@ o(4).Params = Params;
 o(5).Params = Params;
 o(6).Params = Params;
 
-file = [20180118,001211];
+file = [20180118, 001211];
 savedata = 0;
 d = SeparateMultipleScans(file, o, savedata);
 close all;
 
+%% Combine data
+%%  Combine two-body/single-body data
+for i = 1:length(d)
+    bCombine = 1;
+    if bCombine
+        %     d(i).Scan.SurvivalLoadingLogicals = {[1, 2], [1, 2], [1, -2], [-1,2]};
+        %     d(i).Scan.SurvivalLogicals = {[3], [4], [3], [4]};
+        d(i).Scan.SurvivalLoadingLogicals = {[1], [2]};
+        d(i).Scan.SurvivalLogicals = {[3], [4]};
+        [Analysis, MeanLoads, ParamList] = plot_data(d(i).Scan, d(i).Scan.Images, '');
+        d(i).Analysis = Analysis;
+        close all;
+    end
+end
+
+
 %% Na X
-i=1+3; %which scan?
+i=1 + 1*3; %which scan?
 m=1; %which survival?  1,3 = Na, 2,4 = Cs. 
 
-% Combine data
-bCombine = 1;
-if bCombine
-    [Analysis, MeanLoads, ParamList] = plot_data(d(i).Scan, d(i).Scan.Images, '');
-    d(i).Analysis = Analysis;
-end
 
 SurvProb = d(i).Analysis.SurvivalProbability;
 SurvProbErr = d(i).Analysis.SurvivalProbabilityErr;
@@ -69,15 +79,9 @@ grid on;
 ylim([0 1]);
 
 %% Na Y
-i=2+3; %which scan?
+i=2 + 1*3; %which scan?
 m=1; %which survival?  1 = Na, 2 = Cs. 
 
-% Combine data
-bCombine = 1;
-if bCombine
-    [Analysis, MeanLoads, ParamList] = plot_data(d(i).Scan, d(i).Scan.Images, '');
-    d(i).Analysis = Analysis;
-end
 
 SurvProb = d(i).Analysis.SurvivalProbability;
 SurvProbErr = d(i).Analysis.SurvivalProbabilityErr;
@@ -104,15 +108,9 @@ grid on;
 ylim([0 1]);
 
 %% Na Z
-i=3+3; %which scan?
+i=3 + 1*3; %which scan?
 m=1; %which survival?  1 = Na, 2 = Cs. 
 
-% Combine data
-bCombine = 1;
-if bCombine
-    [Analysis, MeanLoads, ParamList] = plot_data(d(i).Scan, d(i).Scan.Images, '');
-    d(i).Analysis = Analysis;
-end
 
 SurvProb = d(i).Analysis.SurvivalProbability;
 SurvProbErr = d(i).Analysis.SurvivalProbabilityErr;
@@ -139,15 +137,9 @@ grid on;
 ylim([0 1]);
 
 %% Cs Ax1
-i=1 + 3; %which scan?
+i=1 + 1*3; %which scan?
 m=2; %which survival?  1 = Na, 2 = Cs. 
 
-% Combine data
-bCombine = 1;
-if bCombine
-    [Analysis, MeanLoads, ParamList] = plot_data(d(i).Scan, d(i).Scan.Images, '');
-    d(i).Analysis = Analysis;
-end
 
 SurvProb = d(i).Analysis.SurvivalProbability;
 SurvProbErr = d(i).Analysis.SurvivalProbabilityErr;
@@ -173,15 +165,9 @@ grid on;
 ylim([0 1]);
 
 %% Cs Ax2
-i=2 + 3; %which scan?
+i=2 + 1*3; %which scan?
 m=2; %which survival?  1 = Na, 2 = Cs. 
 
-% Combine data
-bCombine = 1;
-if bCombine
-    [Analysis, MeanLoads, ParamList] = plot_data(d(i).Scan, d(i).Scan.Images, '');
-    d(i).Analysis = Analysis;
-end
 
 SurvProb = d(i).Analysis.SurvivalProbability;
 SurvProbErr = d(i).Analysis.SurvivalProbabilityErr;
@@ -208,15 +194,8 @@ ylim([0 1]);
 
 
 %% Cs Ax3
-i=3 + 3; %which scan?
+i= 3 + 1*3; %which scan?
 m=2; %which survival?  1 = Na, 2 = Cs. 
-
-% Combine data
-bCombine = 1;
-if bCombine
-    [Analysis, MeanLoads, ParamList] = plot_data(d(i).Scan, d(i).Scan.Images, '');
-    d(i).Analysis = Analysis;
-end
 
 SurvProb = d(i).Analysis.SurvivalProbability;
 SurvProbErr = d(i).Analysis.SurvivalProbabilityErr;

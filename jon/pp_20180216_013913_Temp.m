@@ -5,7 +5,7 @@
 %% Separate files
 file = [20180216, 013913];
 savedata = 0;
-d = SeparateMultipleScans(file, o, savedata);
+d = SeparateMultipleScans2(file, savedata);
 close all;
 
 %%  Combine two-body/single-body data

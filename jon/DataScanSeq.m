@@ -24,10 +24,12 @@ methods
         self.ScanSeq = Scan.ScanSeq;
         Scan.ScanSeq = [];
 
-        % Save
+        % Separate and save scan
         self.Scan = Scan;
         self = SeparateScans(self);
         self.Scan = DataScanSeq.DefineScanParameters(self.Scan);
+        
+        % Survival analysis
         self = createAnalysis(self);
         
     end
@@ -54,7 +56,7 @@ methods
             idxParamList = idxFirst <= ParamList & ParamList <= idxLast; %ParamList is (1 x number seqs)
             ScanTemp.ParamList = ParamList(idxParamList); %ParamList was stored in d.ParamList. Now Scan.ParamList.
             ScanTemp.Images = Scan.Images(:, :, repelem(idxParamList, Scan.NumImages) ); %Images is (1 x 4*number seqs)
-            ScanTemp.UniqueParams = unique(ParamList); % 1 x number of parameters
+            ScanTemp.UniqueParams = unique(ScanTemp.ParamList); % 1 x number of parameters
             ScanTemp.NumParams = length(ScanTemp.UniqueParams); % Number of parameters
             
             idxParams = idxFirst <= Scan.Params & Scan.Params <= idxLast; %Scan.Params is (1 x num per group)
@@ -115,6 +117,41 @@ methods
             Analysis(i) = A; 
         end
         self.Analysis = Analysis;
+    end
+    function self = redoAnalysis(self)
+        % Here I can change the cutoff, atom sites, box size, and the
+        % LoadingLogicals, SurvivalLogicals, and SurvivalLoadingLogicals.
+        % NEED TO USE INPUTPARSER CLASS
+        self = createAnalysis(self);
+    end
+    
+    function [x,y] = PlotSurvival(self, i, scanFieldIdx, survival)
+        % Plot survival. ProbSurvival is dimensions (NumSurvival, NumSites, NumParams)
+        %i = 1; % which scan
+        
+        Analysis = self.Analysis(i);
+        ProbSurvival = Analysis.ProbSurvival;
+        ProbSurvivalErr = Analysis.ProbSurvivalErr;
+        
+        %x-axis
+        ScanSeq = self.ScanSeq;
+        scanIdx = ScanSeq.scanIdx{i};
+        scannedFields = ScanSeq.fields(scanIdx);
+        %scanFieldIdx = 1; % which scanned variable to use as x-axis
+        scannedField = scannedFields{scanFieldIdx}; 
+        p = ScanSeq.p(i);
+        x = p.(scannedField);
+        x = x' / p.PlotScale;
+        
+        site = 1; % which site
+        %survival = 1; % white survival 
+        y = squeeze( ProbSurvival(survival, site, :) );
+        yerr = squeeze( ProbSurvival(survival, site, :) );
+        % Plot        
+        %figure(4); clf;
+      
+        %plot(x, y);
+        
     end
 end
 

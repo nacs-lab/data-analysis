@@ -13,7 +13,7 @@ for i = 1 : 3
     scanFieldIdx = 1; %1 for Na, 2 for Cs
     scale = 1e6;
     
-    [x,y,yerr] = data.getSurvival(i, scanFieldIdx, survival);
+    [x,y,yerr] = data.getSurvival(survival, i, scanFieldIdx);
     errorbar( x/scale, y, yerr, '.-', 'CapSize', 2, 'Linewidth', 1, 'Marker', '.', 'MarkerSize', 14);
     title(['Na Ax' num2str(i)]);
     xlabel('NaRaman1Det (MHz)');

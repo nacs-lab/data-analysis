@@ -26,7 +26,7 @@ for i = 1 : data(1).Scan.NumSurvival
     for m = 1 : length(data)
         %i = 1; % which scan
         %scanFieldIdx = 1; %1 for Na, 2 for Cs
-        [x(i,m,:), y(i,m,:), yerr(i,m,:)] = data(m).getSurvival(1, 1, survival);
+        [x(i,m,:), y(i,m,:), yerr(i,m,:)] = data(m).getSurvival(survival, 1, 1);
     end
 end
 

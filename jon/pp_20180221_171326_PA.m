@@ -1,11 +1,11 @@
 %%%%%%%  Plotting VPA scan %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Plotting VPA scan when each file only has single point
-%VPAScan_20180221_171326
+%VPAScan_20180221_184004
 
 %% Load VPAScan data
 folder = 'N:\NaCsLab\Data';
 clearfig = 1; berror = 1;
-f = load([folder '\20180221\' 'VPAScan_20180221_171326.mat']); % Description
+f = load([folder '\20180221\' 'VPAScan_20180221_184004.mat']); % Description
 filelist = f.filelist;
 VPATempList = f.VPATempList;
 length(filelist)
@@ -58,10 +58,18 @@ for i = 1:ncol
     hold on;
     berror = 1;
     if berror
-        errorbar(fPA, y(i,:), yerr(i,:),'.-');
+        errorbar(fPA, y(i,:), yerr(i,:),'.');
     else
         plot(fPA,  y(i,:) ,'.-');
     end
+    
+    % Fit Gaussian
+    if i <= 2
+        ft = fit(fPA', y(i,:)', 'a - b*exp(-(x-c-555)^2/w^2)', 'StartPoint', [0.9, 0.4, 0.1, 0.05])
+        plot(ft);
+    end
+    
+    % Labels
     Scan = data(1).Scan;
     title({['survival: ' logical_cond_2str(Scan.SurvivalLogicals{i},Scan.SingleAtomSpecies)], ...
                 ['loading: ' logical_cond_2str(Scan.SurvivalLoadingLogicals{i},Scan.SingleAtomSpecies)]})

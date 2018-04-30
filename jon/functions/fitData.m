@@ -1,4 +1,4 @@
-function ft = fitData(x, y, fittype, varargin)
+function [ft, avg, err] = fitData(x, y, fittype, varargin)
 % Fitting function with lots of options.
     % fittype = 'a*exp(-(x-b)^2/w^2) + os', or any other function with x
     % indepedent variable.
@@ -89,5 +89,6 @@ if bPlot
     text( xlimits(1)+(xlimits(2)-xlimits(1))/10, ...
         ylimits(2) - (TextRow - 0.5)*0.2*(ylimits(2)-ylimits(1)), [s1, s2, s3]);
 end
+
 
 end

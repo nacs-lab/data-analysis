@@ -1,3 +1,4 @@
+%% Old files
 %file = [20180409, 152624];
 file = [20180409, 174357];
 file = [20180409, 182037];
@@ -34,7 +35,39 @@ file = [20180418, 153555];
 %file = [20180419, 164223];
 file = [20180420, 213549];
 file = [20180421, 093608];
+file = [20180521, 185916];
+file = [20180521, 191506];
+file = [20180522, 144000];
+file = [20180522, 150013];
+file = [20180522, 150753];
+file = [20180522, 151616];
+file = [20180522, 152404];
+file = [20180522, 152904];
+file = [20180522, 153550];
 
+file = [20180522, 154031];
+file = [20180522, 154504];
+file = [20180522, 155318];
+file = [20180522, 160512];
+%%
+file = [20180522, 161331];
+file = [20180522, 181141]; 
+file = [20180525, 183202];
+file = [20180527, 145952];
+file = [20180527, 150936];
+file = [20180527, 153846];
+file = [20180527, 215313];
+file = [20180527, 215746];
+file = [20180527, 225829];
+file = [20180528, 102444];
+file = [20180528, 144337];
+file = [20180528, 162647];
+file = [20180528, 183832];
+file = [20180529, 152904];
+file = [20180601, 145023];
+file = [20180601, 225348];
+file = [20180601, 225947];
+file = [20180602, 105144];
 
 data = DataScanSeq(file);
 
@@ -49,12 +82,12 @@ scale = 1e6;
 i = 1; % which scan
 [x,y,yerr] = data.getSurvival(survival, i, scanFieldIdx);
 errorbar( x/scale, y, yerr, '.-', 'CapSize', 2, 'Linewidth', 1, 'Marker', '.', 'MarkerSize', 14);
-fitData( x/scale, y, 'a*rabiLine(2*pi*(x-x0), 12e-6*1e6, b)', 'Plot', 1, 'Start', [0.95, 0.13, 18.6])
+fitData( x/scale, y, 'a*rabiLine(2*pi*(x-x0), 17e-6*1e6, b)/rabiLine(0, 17e-6*1e6, b)', 'Plot', 1, 'Start', [0.8, 200, 10])
 hold on;
 i = 2;
 [x,y,yerr] = data.getSurvival(survival, i, scanFieldIdx);
 errorbar( x/scale, y, yerr, '.-', 'CapSize', 2, 'Linewidth', 1, 'Marker', '.', 'MarkerSize', 14);
-fitData( x/scale, y, 'a*rabiLine(2*pi*(x-x0), 12e-6*1e6, b)', 'Plot', 1, 'Start', [0.95, 0.13, 18.6], 'TextRow', 2)
+fitData( x/scale, y, 'a*rabiLine(2*pi*(x-x0), 17e-6*1e6, b)/rabiLine(0, 17e-6*1e6, b)', 'Plot', 1, 'Start', [0.8, 200, 10], 'TextRow', 2)
 
 hold off; 
 
@@ -63,8 +96,6 @@ ylabel('Survival');
 title('Na Coprop with and without 1038nm');
 grid on;
 ylim([0 1]);
-
-
 
 subplot(1,2,2);
 survival = 2; %1 for Na, 2 for Cs
@@ -76,13 +107,13 @@ i = 1; % which scan
 [x,y,yerr] = data.getSurvival(survival, i, scanFieldIdx);
 errorbar( x/scale, y, yerr, '.-', 'CapSize', 2, 'Linewidth', 1, 'Marker', '.', 'MarkerSize', 14);
 ylim([0,1]);
-fitData( x/scale, y, 'a*rabiLine(2*pi*(x-x0), 17e-6*1e3, b)', 'Plot', 1, 'Start', [0.9, 100, 20])
+fitData( x/scale, y, 'a*rabiLine(2*pi*(x-x0), 17e-6*1e3, b)', 'Plot', 1, 'Start', [0.9, 100, 10])
 hold on;
 i = 2;
 [x,y,yerr] = data.getSurvival(survival, i, scanFieldIdx);
 errorbar( x/scale, y, yerr, '.-', 'CapSize', 2, 'Linewidth', 1, 'Marker', '.', 'MarkerSize', 14);
 ylim([0,1]);
-fitData( x/scale, y, 'a*rabiLine(2*pi*(x-x0), 17e-6*1e3, b)', 'Plot', 1, 'Start', [0.9, 50, 60], 'TextRow', 2)
+fitData( x/scale, y, 'a*rabiLine(2*pi*(x-x0), 17e-6*1e3, b)', 'Plot', 1, 'Start', [0.9, 50, 30], 'TextRow', 2)
 hold off; 
 
 %title( titles{i} );
@@ -93,8 +124,43 @@ title('Cs Coprop with and without 1038nm');
 grid on;
 ylim([0 1]);
 
+%% Horizontal Data 5/22
+%Horizontal
+x = [20, 10, 0, -10, -20, -30, -40, -50, -60, -70, -80]; %steps
+x  = 0.140*x;
+y = [ 8.78, 11.3, 24.75, 47.2, 53.2, 51.4, 51.2, 52.5, 34, 36.74, 23.7]; %kHz
+yerr = [3, 2, 2, 3, 2, 2.5, 2.5, 2.5, 2.5, 2, 3]; %kHz
 
+% sort
+[x, ind] = sort(x);
+y = y(ind);
+yerr = yerr(ind);
 
+%plot
+figure(7);
+errorbar(x, y, yerr, '.-', 'MarkerSize', 10);
+fitData(x,y, 'a*exp(-2*(x-x0)^2/b^2)', 'Start', [55, 5, -3], 'Plot', 1)
+xlabel('Horizontal position (um)');
+ylabel('Vector shift (kHz)');
+title('1038nm vector shift vs horizontal position');
+%% Vertical Data 5/22
+x = [-60, -50, -40, -30, -20, -10, 0, 10, 30, 50, 70, 90]; %steps
+x  = 0.100*x; %0.100 if +,  0.85 is going -
+y = [34.4, 42, 39.5, 43.9, 56.6, 50.5, 48.6, 50.66, 49, 44.9, 36.1, 31.9]; %kHz
+yerr = [3, 3, 3, 3, 3, 3, 3, 1.5, 3, 2, 3, 3]; %kHz
+
+% sort
+[x, ind] = sort(x);
+y = y(ind);
+yerr = yerr(ind);
+
+%plot
+figure(7);
+errorbar(x, y, yerr, '.-');
+fitData(x,y, 'a*exp(-2*(x-x0)^2/b^2)', 'Start', [120, 5, 5], 'Plot', 1)
+xlabel('Vertical position (um)');
+ylabel('Vector shift (kHz)');
+title('1038nm vector shift vs Vertical position');
 %% Horizontal
 x = [0, -20, 20, 40, 60, 80, 100, 120]; %steps
 x  = 0.140*x;
@@ -113,7 +179,6 @@ fitData(x,y, 'a*exp(-2*(x-x0)^2/b^2)', 'Start', [120, 5, 5], 'Plot', 1)
 xlabel('Horizontal position (um)');
 ylabel('Vector shift (kHz)');
 title('1038nm vector shift vs horizontal position');
-
 %% Vertical
 x = [0, 30, -30, -60, -90]; %steps
 x  = 0.085*x;
@@ -132,7 +197,6 @@ fitData(x,y, 'a*exp(-2*(x-x0)^2/b^2)', 'Start', [120, 5, 5], 'Plot', 1)
 xlabel('Vertical position (um)');
 ylabel('Vector shift (kHz)');
 title('1038nm vector shift vs Vertical position');
-
 %% Horizontal 2
 x = [0 -20 20 40 30]; %steps
 x  = 0.140*x;

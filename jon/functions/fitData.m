@@ -79,10 +79,10 @@ s1 = ['Fit to ', formula(ft)];
 [avg, err] = get_mean_error_from_fit(ft);  % I don't know what this is
 s2 = sprintf(['\n', num2str(avg, 6)]);
 s3 = sprintf(['\n', num2str(err, 2)]);
-disp(s1);
-disp('Averages and standard deviations: ');
-disp(s2);
-disp(s3);
+% disp(s1);
+% disp('Averages and standard deviations: ');
+% disp(s2);
+% disp(s3);
 if bPlot
     xlimits = xlim;
     ylimits = ylim;

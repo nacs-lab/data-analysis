@@ -75,6 +75,41 @@ FitLogics= { {fitvar, fitvar} };
 data.plotSurvival('PlotLogics', PlotLogics, ...
     'FitLogics', FitLogics);
 
+%% Plot for KK
+data = data.modifyScan('PlotScale', 1e6, 'ParamName', 'fInnolumeRamanAOM', 'ParamUnits', 'MHz');
+figure(1); clf; set(gcf,'color','w');
+fittype = 'a - b/(1 + (x-c)^2/(gamma/2)^2)';
+
+[x, y, yerr] = data.getSurvival(1);
+errorbar(x, y, yerr, 'CapSize', 2, 'Linewidth', 1, 'Marker', '.', 'MarkerSize', 16, 'LineStyle', 'none');
+hold on; 
+ft = fit(x, y, fittype, 'Start', [0.7, 0.2, 298.100, .02]);
+xfit = linspace( min(x), max(x), 200);
+yfit = ft(xfit);
+plot(xfit, yfit, 'b-');
+
+[x, y, yerr] = data.getSurvival(2);
+errorbar(x, y, yerr, 'CapSize', 2, 'Linewidth', 1, 'Marker', '.', 'MarkerSize', 16, 'LineStyle', 'none');
+ft = fit(x, y, fittype, 'Start', [0.7, 0.2, 298.100, .02]);
+xfit = linspace( min(x), max(x), 200);
+yfit = ft(xfit);
+plot(xfit, yfit, 'r-');
+
+xlim([min(x), max(x)]);
+ylim([0.1, 0.9]);
+xlabel('Raman detuning (MHz)', 'FontSize', 14);
+ylabel('Survival', 'FontSize', 14); 
+set(gca,'FontSize',14)
+
+%print(figure(i), '-append', '-dpsc2', 'E:\myfigure.ps');
+set(gcf,'Units','inches');
+screenposition = get(gcf,'Position');
+set(gcf,...
+    'PaperPosition',[0 0 screenposition(3:4)],...
+    'PaperSize',[screenposition(3:4)]);
+print -dpdf -painters RamanTransferFigure
+
+
 %% Load data  -1.5 GHz,  attempt 2 (10mW)
 date = '20180708'; time = '210745';
 data = DataScanSeq([date '_' time]);
